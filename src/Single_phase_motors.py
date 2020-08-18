@@ -1,4 +1,4 @@
-#Single_phase_motor_page=1
+#Single_phase_motor_page=1-5
 
 #Importing the Libraries
 import requests
