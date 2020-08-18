@@ -33,7 +33,6 @@ while(p<6):
                 quote['brand'] = row.span.text
                 raw_price = table[i].find('div', attrs={'class':'proPriceBox'}).span.text
                 #print(raw_price)
-                #price = [x.replace('\n', '').replace(' ', '') for x in raw_price]       This doesn't work correctly
                 price = raw_price.replace('\n', '').replace(' ', '')
                 #print(price)
                 quote['price'] = price
