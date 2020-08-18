@@ -40,11 +40,11 @@ while(p<6):
                 my_list.append(quote)
     
     next_page = "?page=" + str(p)
-    print(next_page)
+    #print(next_page)
     current_page = "?page=" + str(p-1)
-    print(current_page)
+    #print(current_page)
     link = link.replace(current_page, next_page)
-    print(p)
+    #print(p)
     p = p + 1
     
     result = requests.get(link)
@@ -53,4 +53,4 @@ while(p<6):
 
 
 print(len(my_list))
-#print(my_list)
+print(my_list)
