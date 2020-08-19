@@ -68,6 +68,6 @@ while(page<6):
     soup = BeautifulSoup(src, 'lxml')
 
 
-print(len(my_list))
-print(my_list)
+#print(len(my_list))
+#print(my_list)
 
