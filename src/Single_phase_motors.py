@@ -1,4 +1,4 @@
-#Single_phase_motor_page=1-5
+#Single_phase_motor_page=1
 
 #Importing the Libraries
 import requests
@@ -15,11 +15,11 @@ base_src = base_result.content
 soup = BeautifulSoup(base_src, 'lxml')
 
 #Base variables defined to traverse to the next page
-p=2
+page=1
 
 #Looping till the last page of the current directory
 #soup.find('link', attrs={'rel':'next'}) != None
-while(p<6):
+while(page<6):
     
     #Capturing the parent tag
     table = soup.find_all('div', attrs={'class':'AH_ProductView col-lg-3 col-md-3 col-sm-6 col-xs-6 productThumbnails'})
@@ -28,23 +28,33 @@ while(p<6):
     for i in range(len(table)):
         if(table[i].find('div', attrs={'class':'proPriceBox'}).div.text != 'Quote Only'):
             for row in table[i].find_all('div', attrs={'class':'prFeature'}):
+                #print(i)
                 quote = {}
                 quote['name'] = row.a.text
                 quote['brand'] = row.span.text
-                raw_price = table[i].find('div', attrs={'class':'proPriceBox'}).span.text
-                #print(raw_price)
-                price = raw_price.replace('\n', '').replace(' ', '')
-                #print(price)
-                quote['price'] = price
+                #print(table[i].find('div', attrs={'class':"proPriceBox"}).span)
+                
+                if(table[i].find('span', attrs={'class':"rs"}) != None):
+                    raw_price = table[i].find('span', attrs={'class':"rs"}).text
+                    #print(raw_price)
+                    price = raw_price.replace('\n', '').replace(' ', '')
+                    #print(price)
+                    quote['price'] = price
+                elif(table[i].find('div', attrs={'class':"proPriceSpan family"}) != None):
+                    raw_price = table[i].find('div', attrs={'class':"proPriceSpan family"}).text
+                    #print(raw_price)
+                    raw_price_alt = raw_price.replace('Price Range:', '').replace(' ', '').replace('\n', '')
+                    #print(raw_price_alt)
+                    quote['price'] = raw_price_alt
                 my_list.append(quote)
     
-    next_page = "?page=" + str(p)
-    #print(next_page)
-    current_page = "?page=" + str(p-1)
+    current_page = "?page=" + str(page)
     #print(current_page)
+    next_page = "?page=" + str(page+1)
+    #print(next_page)
     link = link.replace(current_page, next_page)
-    #print(p)
-    p = p + 1
+    print(page)
+    page = page + 1
     
     result = requests.get(link)
     src = result.content
@@ -52,4 +62,4 @@ while(p<6):
 
 
 print(len(my_list))
-print(my_list)
+#print(my_list)
